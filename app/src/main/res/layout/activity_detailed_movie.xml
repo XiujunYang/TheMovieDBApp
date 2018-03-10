@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/movie_detailed_activity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <LinearLayout  xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal" >
+        <com.facebook.drawee.view.SimpleDraweeView android:id="@+id/detail_imageId"
+            android:layout_width="@dimen/poster_item_img_width"
+            android:layout_height="@dimen/poster_item_img_height"
+            fresco:placeholderImage="@drawable/default_images" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView android:id="@+id/detail_titleId"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="{Movie title}"
+                android:textSize="@dimen/detail_movie_txt_size_primary"
+                android:textStyle="bold"
+                android:singleLine="false" />
+            <TextView android:id="@+id/detail_original_titleId"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="{Movie original title}"
+                android:textSize="@dimen/detail_movie_txt_size_normal"
+                android:singleLine="false" />
+            <TextView android:id="@+id/detail_runTimeId"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="\? minuties"
+                android:textSize="@dimen/detail_movie_txt_size_normal" />
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true" >
+                    <ProgressBar android:id="@+id/vote_average_bar"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_centerInParent="true"
+                        android:indeterminate="false"
+                        android:max="100"
+                        android:progress="0"
+                        android:progressDrawable="@drawable/circle_bar_drawable"
+                        android:secondaryProgress="100" />
+                    <TextView
+                        android:id="@+id/txt_vote_average"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/vote_average_bar"
+                        android:layout_centerInParent="true"
+                        android:textSize="20sp"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/detailed_movie_information_field"
+                android:textSize="@dimen/detail_movie_txt_size_primary"
+                android:textStyle="bold"
+                android:background="@color/colorBackgroud" />
+            <LinearLayout android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Release date"
+                    android:textSize="@dimen/detail_movie_txt_size_normal"
+                    android:textStyle="bold" />
+                <TextView android:id="@+id/detail_release_date"
+                    android:gravity="right"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="{YYYY-MM-DD}"
+                    android:textSize="@dimen/detail_movie_txt_size_normal" />
+                </LinearLayout>
+
+            <LinearLayout android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Genres: "
+                    android:textSize="@dimen/detail_movie_txt_size_normal"
+                    android:textStyle="bold" />
+                <TextView android:id="@+id/detail_movie_genres"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="{genres}"
+                    android:textSize="@dimen/detail_movie_txt_size_normal"
+                    android:singleLine="false" />
+            </LinearLayout>
+            <TextView android:id="@+id/detail_movie_overview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/detail_movie_txt_size_normal"
+                android:singleLine="false" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
