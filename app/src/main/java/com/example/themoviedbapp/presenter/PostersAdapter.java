@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.themoviedbapp.R;
 import com.example.themoviedbapp.model.gson.Movie;
 import com.example.themoviedbapp.view.DetailedMovieActivity;
+import com.facebook.drawee.drawable.ProgressBarDrawable;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import org.slf4j.Logger;
@@ -71,6 +72,7 @@ public class PostersAdapter extends RecyclerView.Adapter<PostersAdapter.ViewHold
         public ViewHolder(View itemView) {
             super(itemView);
             posterView = (SimpleDraweeView) itemView.findViewById(R.id.gridView_image_Id);
+            posterView.getHierarchy().setProgressBarImage(new ProgressBarDrawable());
             movieTitle = (TextView) itemView.findViewById(R.id.gridView_movie_title);
         }
     }

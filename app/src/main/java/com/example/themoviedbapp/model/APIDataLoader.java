@@ -7,6 +7,8 @@ import com.example.themoviedbapp.util.AppConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.TimeUnit;
+
 import io.reactivex.Observer;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -17,6 +19,8 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.example.themoviedbapp.util.AppConstant.CONNECT_TO_TIMEOUT_SECOND;
+
 /**
  * Created by Jean on 2018/3/10.
  */
@@ -26,12 +30,19 @@ public class APIDataLoader {
     ApiService apiService;
 
     public APIDataLoader() {
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+        logger.info("DEBUG:" + (BuildConfig.DEBUG == true));
+        OkHttpClient.Builder client = new OkHttpClient.Builder();
+        if(BuildConfig.DEBUG) {
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            client.addInterceptor(interceptor);
+        }
+        client.connectTimeout(CONNECT_TO_TIMEOUT_SECOND, TimeUnit.SECONDS)
+                .writeTimeout(CONNECT_TO_TIMEOUT_SECOND, TimeUnit.SECONDS)
+                .readTimeout(CONNECT_TO_TIMEOUT_SECOND, TimeUnit.SECONDS);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AppConstant.TMDB_DOMAIN_NAME)
-                .client(client)
+                .client(client.build())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

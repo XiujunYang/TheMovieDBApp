@@ -1,5 +1,6 @@
 package com.example.themoviedbapp.view;
 
+import android.app.ActionBar;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +14,9 @@ import android.view.MenuItem;
 import com.example.themoviedbapp.R;
 import com.example.themoviedbapp.presenter.MainPresenter;
 import com.example.themoviedbapp.presenter.PostersAdapter;
+import com.example.themoviedbapp.util.Util;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import org.slf4j.Logger;
@@ -35,11 +38,13 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        Fresco.initialize(this);
         if(savedInstanceState != null) {
             int oldNavStatus = savedInstanceState.getInt("nav_menu_id");
             presenter.refreshMovieListByCategory(oldNavStatus);
             navigationView.setCheckedItem(oldNavStatus);
+        } else {
+            ImagePipelineConfig config = Util.getImgPiplineConfig(this);
+            Fresco.initialize(this, config);
         }
     }
 
@@ -76,5 +81,10 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
 
     public void updateSearchViewSugguestion(String[] suggestions) {
             searchView.setSuggestions(suggestions);
+    }
+
+    public void adjustActionBar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.getLayoutParams().height = ActionBar.LayoutParams.WRAP_CONTENT;
     }
 }

@@ -4,20 +4,20 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.themoviedbapp.R;
-import com.example.themoviedbapp.model.APIDataLoader;
 import com.example.themoviedbapp.model.gson.DetailedMovie;
 import com.example.themoviedbapp.presenter.DetailedMoviePresenter;
+import com.example.themoviedbapp.util.Util;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.drawable.ProgressBarDrawable;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.example.themoviedbapp.util.AppConstant.TMDB_LOADING_IMG_PREFIX_URL;
 
@@ -34,9 +34,11 @@ public class DetailedMovieActivity extends AppCompatActivity implements Detailed
     }
 
     public void displayDetail(DetailedMovie movie) {
-        Fresco.initialize(this);
+        ImagePipelineConfig config = Util.getImgPiplineConfig(this);
+        Fresco.initialize(this, config);
         SimpleDraweeView poster = findViewById(R.id.detail_imageId);
         Uri uri = Uri.parse(TMDB_LOADING_IMG_PREFIX_URL + movie.getPoster_path());
+        poster. getHierarchy().setProgressBarImage(new ProgressBarDrawable());
         poster.setImageURI(uri);
         TextView title = findViewById(R.id.detail_titleId);
         title.setText(movie.getTitle());

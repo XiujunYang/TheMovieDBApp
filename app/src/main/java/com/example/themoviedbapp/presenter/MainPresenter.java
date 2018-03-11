@@ -28,7 +28,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import javax.inject.Inject;
 
 import dagger.Module;
-import dagger.Provides;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
@@ -59,6 +58,7 @@ public class MainPresenter implements MainPresenterInterface{
                     refreshMovieListByCategory(item.getItemId());
                     break;
                 case R.id.nav_search_history:
+                    // TODO: fix it.
                     //refreshMovieListFromDB();
                     break;
                 default:
@@ -94,7 +94,7 @@ public class MainPresenter implements MainPresenterInterface{
     MaterialSearchView.OnQueryTextListener searchQueryTxtLinstener = new MaterialSearchView.OnQueryTextListener() {
         @Override
         public boolean onQueryTextSubmit(String query) {
-            logger.info("[onQueryTextSubmit]");
+            logger.info("[onQueryTextSubmit] query: " + query);
             displayMovieDetailByName(query);
             return true;
         }
@@ -102,6 +102,7 @@ public class MainPresenter implements MainPresenterInterface{
         @Override
         public boolean onQueryTextChange(String newText) {
             findMovieTitleFromDB(newText);
+            //mainView.adjustActionBar();
             return true;
         }
     };
@@ -163,7 +164,7 @@ public class MainPresenter implements MainPresenterInterface{
                 super.onPostExecute(movies);
                 logger.info("[refreshMovieListFromDB] movie.size=" + movies.size());
                 movieList.clear();
-                movieList = movies;
+                movieList.addAll(movies);
                 postersAdapter.notifyDataSetChanged();
             }
         }.execute();
@@ -208,11 +209,13 @@ public class MainPresenter implements MainPresenterInterface{
             @Override
             protected void onPostExecute(Movie movie) {
                 super.onPostExecute(movie);
-                logger.info("[displayMovieNameDetail] movie.id=" + movie.getId());
-                Intent intent = new Intent(context, DetailedMovieActivity.class);
-                intent.putExtra("movieId", movie.getId());
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+                if(movie != null) {
+                    logger.info("[displayMovieNameDetail] movie.id=" + movie.getId());
+                    Intent intent = new Intent(context, DetailedMovieActivity.class);
+                    intent.putExtra("movieId", movie.getId());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
             }
         }.execute(movieTitle);
     }

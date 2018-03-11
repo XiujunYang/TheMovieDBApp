@@ -14,7 +14,6 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
-
 def TMDB_API_KEY = '"' + TMDB_API_Key + '"' ?: '"Define The mobile db api key"';
 
 android.buildTypes.each { type ->

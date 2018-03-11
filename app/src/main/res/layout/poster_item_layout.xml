@@ -4,6 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
     android:paddingTop="@dimen/poster_item_padding"
     android:paddingBottom="@dimen/poster_item_padding"
     android:paddingLeft="@dimen/poster_item_padding"
@@ -12,9 +13,9 @@
     <com.facebook.drawee.view.SimpleDraweeView android:id="@+id/gridView_image_Id"
         android:layout_width="@dimen/poster_item_img_width"
         android:layout_height="@dimen/poster_item_img_height"
-        fresco:placeholderImage="@drawable/default_images"
-        fresco:placeholderImageScaleType="focusCrop"
-        fresco:actualImageScaleType="focusCrop" />
+        fresco:failureImage="@drawable/error_image"
+        fresco:failureImageScaleType="centerInside"
+        fresco:actualImageScaleType="centerInside" />
     <TextView android:id="@+id/gridView_movie_title"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

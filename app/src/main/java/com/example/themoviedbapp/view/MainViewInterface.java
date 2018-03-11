@@ -18,4 +18,5 @@ public interface MainViewInterface {
             MaterialSearchView.OnQueryTextListener searchQueryTxtLinstener);
     public void closeNavigationDrawer();
     public void updateSearchViewSugguestion(String[] suggestions);
+    public void adjustActionBar();
 }
