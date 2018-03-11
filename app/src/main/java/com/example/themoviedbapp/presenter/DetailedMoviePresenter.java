@@ -4,14 +4,12 @@ import android.content.Intent;
 
 import com.example.themoviedbapp.model.APIDataLoader;
 import com.example.themoviedbapp.model.gson.DetailedMovie;
-import com.example.themoviedbapp.model.gson.Movie;
 import com.example.themoviedbapp.view.DetailedMovieActivity;
 import com.example.themoviedbapp.view.DetailedMovieActivityInterface;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.reactivex.Observer;
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 

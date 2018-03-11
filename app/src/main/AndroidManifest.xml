@@ -22,6 +22,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.DetailedMovieActivity"></activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="8e51189bf83a62a8a714ddaea5f3261ad526ffc5" />
     </application>
 
 </manifest>

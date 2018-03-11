@@ -1,20 +1,15 @@
 package com.example.themoviedbapp.model;
 
 import com.example.themoviedbapp.BuildConfig;
-import com.example.themoviedbapp.model.gson.Movie;
+import com.example.themoviedbapp.model.gson.MovieResponse;
 import com.example.themoviedbapp.util.AppConstant;
 
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.reactivex.Observable;
 import io.reactivex.Observer;
-import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -43,7 +38,7 @@ public class APIDataLoader {
         apiService = retrofit.create(ApiService.class);
     }
 
-    public void subscribeTopRateMovies(Observer<Movie> observer) {
+    public void subscribeTopRateMovies(Observer<MovieResponse> observer) {
         apiService.getTopRateMovies(BuildConfig.TMDB_API_KEY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -51,7 +46,7 @@ public class APIDataLoader {
                 .subscribe(observer);
     }
 
-    public void subscribePopularMovies(Observer<Movie> observer) {
+    public void subscribePopularMovies(Observer<MovieResponse> observer) {
         apiService.getPopularMovies(BuildConfig.TMDB_API_KEY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

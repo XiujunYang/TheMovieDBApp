@@ -10,8 +10,8 @@
             android:icon="@android:drawable/ic_dialog_info"
             android:title="@string/nav_pop_movie" />
         <item
-            android:id="@+id/nav_search"
+            android:id="@+id/nav_search_history"
             android:icon="@android:drawable/ic_menu_search"
-            android:title="@string/nav_search" />
+            android:title="@string/nav_search_history" />
     </group>
 </menu>

@@ -2,6 +2,6 @@
     <string name="app_name">TheMovieDBApp</string>
     <string name="nav_top_movie">Top Movies</string>
     <string name="nav_pop_movie">Pop Movies</string>
-    <string name="nav_search">Search</string>
+    <string name="nav_search_history">Search History</string>
     <string name="detailed_movie_information_field">Movie Information</string>
 </resources>

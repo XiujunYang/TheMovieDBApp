@@ -28,9 +28,9 @@ import static com.example.themoviedbapp.util.AppConstant.TMDB_LOADING_IMG_PREFIX
 public class PostersAdapter extends RecyclerView.Adapter<PostersAdapter.ViewHolder>{
     private Logger logger = LoggerFactory.getLogger(PostersAdapter.class);
 
-    List<Movie.MovieBean> list;
+    List<Movie> list;
     Context context;
-    public PostersAdapter(List<Movie.MovieBean> list) {
+    public PostersAdapter(List<Movie> list) {
         this.list = list;
     }
 
@@ -45,11 +45,10 @@ public class PostersAdapter extends RecyclerView.Adapter<PostersAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         Uri uri = Uri.parse(TMDB_LOADING_IMG_PREFIX_URL + list.get(position).getPoster_path());
-        holder.imageView.setImageURI(uri);
-        // TODO: Fresco : check if need to show title
-        //holder.imageText.setText(list.get(position).getTitle());
+        holder.posterView.setImageURI(uri);
+        holder.movieTitle.setText(list.get(position).getTitle());
         logger.info("[onBindViewHolder]{}", list.get(position));
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
+        holder.posterView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 Intent intent = new Intent(context, DetailedMovieActivity.class);
@@ -66,13 +65,13 @@ public class PostersAdapter extends RecyclerView.Adapter<PostersAdapter.ViewHold
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        SimpleDraweeView imageView;
-        TextView imageText;
+        SimpleDraweeView posterView;
+        TextView movieTitle;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            imageView = (SimpleDraweeView) itemView.findViewById(R.id.gridViewImgId);
-            //imageText = (TextView) itemView.findViewById(R.id.gridViewTextId);
+            posterView = (SimpleDraweeView) itemView.findViewById(R.id.gridView_image_Id);
+            movieTitle = (TextView) itemView.findViewById(R.id.gridView_movie_title);
         }
     }
 }

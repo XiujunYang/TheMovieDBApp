@@ -1,46 +1,80 @@
 package com.example.themoviedbapp.view;
 
-import android.support.v7.app.ActionBar;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.example.themoviedbapp.R;
-import com.example.themoviedbapp.model.gson.Movie;
 import com.example.themoviedbapp.presenter.MainPresenter;
 import com.example.themoviedbapp.presenter.PostersAdapter;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
-import java.util.List;
-
-import javax.inject.Inject;
-
 public class MainActivity extends AppCompatActivity implements MainViewInterface {
     private Logger logger = LoggerFactory.getLogger(MainActivity.class);
-    //@Inject MainPresenter presenter;
-    MainPresenter presenter = new MainPresenter(this);
+    MainPresenter presenter = new MainPresenter();
+    private DrawerLayout mDrawerLayout;
+    private MaterialSearchView searchView;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         logger.info("MainActivity onCreate");
-        presenter.onCreate();
+        setContentView(R.layout.activity_main);
+        presenter.init(this, this.getApplicationContext());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         Fresco.initialize(this);
+        if(savedInstanceState != null) {
+            int oldNavStatus = savedInstanceState.getInt("nav_menu_id");
+            presenter.refreshMovieListByCategory(oldNavStatus);
+            navigationView.setCheckedItem(oldNavStatus);
+        }
     }
 
-    public void initContentView(PostersAdapter postersAdapter) {
-        setContentView(R.layout.activity_main);
+    public void init(PostersAdapter postersAdapter, NavigationView.OnNavigationItemSelectedListener nvListener,
+            MaterialSearchView.OnQueryTextListener searchQueryTxtLinstener) {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView_id);
         recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 3)); //gridView
         recyclerView.setAdapter(postersAdapter);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(nvListener);
+        searchView = (MaterialSearchView) findViewById(R.id.search_view);
+        searchView.setOnQueryTextListener(searchQueryTxtLinstener);
+    }
+
+    public void closeNavigationDrawer() {
+        mDrawerLayout.closeDrawers();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        searchView.setMenuItem(item);
+        return true;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("nav_menu_id", presenter.getNavStatus());
+    }
+
+    public void updateSearchViewSugguestion(String[] suggestions) {
+            searchView.setSuggestions(suggestions);
     }
 }

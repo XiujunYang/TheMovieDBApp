@@ -1,4 +1,19 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 
 def TMDB_API_KEY = '"' + TMDB_API_Key + '"' ?: '"Define The mobile db api key"';
 
@@ -32,24 +47,54 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    // log
     compile 'org.slf4j:slf4j-api:1.7.21'
     compile 'com.github.tony19:logback-android:1.1.1-9'
 
+    // retrofit 2
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    compile "io.reactivex.rxjava2:rxjava:2.1.10"
     compile 'com.squareup.okhttp3:logging-interceptor:3.9.1'
 
+    // rxjava 2
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    compile "io.reactivex.rxjava2:rxjava:2.1.10"
+
+    // fresco
     implementation 'com.facebook.fresco:fresco:1.8.1'
 
+    // lombok
     compile 'org.projectlombok:lombok:1.16.20'
     annotationProcessor 'org.projectlombok:lombok:1.16.20'
+    //MaterialSearchView
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
 
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.15'
-    compile 'com.google.dagger:dagger-android:2.15'
-    compile 'com.google.dagger:dagger-android-support:2.15'
-    annotationProcessor 'com.google.dagger:dagger-android-processor:2.15'
+    // Room
+    implementation "android.arch.persistence.room:runtime:1.0.0"
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
+    // Test helpers for Room
+    testImplementation "android.arch.persistence.room:testing:1.0.0"
 
+    // dagger 2
+    //compile 'com.google.dagger:dagger:2.14'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.14'
+    implementation 'com.google.dagger:dagger-android:2.14'
+    implementation 'com.google.dagger:dagger-android-support:2.14'
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.14'
+
+    // crashlytics
+    compile('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
+        transitive = true;
+    }
+    compile('com.crashlytics.sdk.android:crashlytics-ndk:2.0.2@aar') {
+        transitive = true;
+    }
+}
+
+crashlytics {
+    enableNdk true
+    androidNdkOut 'src/main/obj'
+    androidNdkLibsOut 'src/main/libs'
 }

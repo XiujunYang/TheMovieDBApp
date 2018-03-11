@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="@dimen/poster_item_padding"
     android:paddingBottom="@dimen/poster_item_padding"
     android:paddingLeft="@dimen/poster_item_padding"
     android:paddingRight="@dimen/poster_item_padding" >
 
-    <com.facebook.drawee.view.SimpleDraweeView android:id="@+id/gridViewImgId"
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@+id/gridView_image_Id"
         android:layout_width="@dimen/poster_item_img_width"
         android:layout_height="@dimen/poster_item_img_height"
-        fresco:placeholderImage="@drawable/default_images" />
-    <!-- <TextView android:id="@+id/gridViewTextId"
+        fresco:placeholderImage="@drawable/default_images"
+        fresco:placeholderImageScaleType="focusCrop"
+        fresco:actualImageScaleType="focusCrop" />
+    <TextView android:id="@+id/gridView_movie_title"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:paddingLeft="@dimen/poster_item_padding"
-        android:gravity="center_vertical"
-        android:singleLine="false" /> -->
-
+        android:text="test"
+        android:singleLine="false" />
 </LinearLayout>

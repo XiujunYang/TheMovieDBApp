@@ -45,19 +45,19 @@ public class DetailedMovie {
     }
 
     @Data
-    public class ProductionCompaniesBean {
+    public static class ProductionCompaniesBean {
         private String name;
         private int id;
     }
 
     @Data
-    public class ProductionCountriesBean {
+    public static class ProductionCountriesBean {
         private String iso_3166_1;
         private String name;
     }
 
     @Data
-    public class SpokenLanguagesBean {
+    public static class SpokenLanguagesBean {
         private String iso_639_1;
         private String name;
     }

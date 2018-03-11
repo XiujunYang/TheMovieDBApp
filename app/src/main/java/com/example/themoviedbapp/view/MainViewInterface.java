@@ -1,6 +1,11 @@
 package com.example.themoviedbapp.view;
 
+import android.content.Context;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+
 import com.example.themoviedbapp.presenter.PostersAdapter;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.List;
 
@@ -9,5 +14,8 @@ import java.util.List;
  */
 
 public interface MainViewInterface {
-    public void initContentView(PostersAdapter postersAdapter);
+    public void init(PostersAdapter postersAdapter, NavigationView.OnNavigationItemSelectedListener nvListener,
+            MaterialSearchView.OnQueryTextListener searchQueryTxtLinstener);
+    public void closeNavigationDrawer();
+    public void updateSearchViewSugguestion(String[] suggestions);
 }

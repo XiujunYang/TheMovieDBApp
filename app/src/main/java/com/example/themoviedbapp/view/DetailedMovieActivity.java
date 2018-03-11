@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -21,11 +22,12 @@ import java.util.stream.Collectors;
 import static com.example.themoviedbapp.util.AppConstant.TMDB_LOADING_IMG_PREFIX_URL;
 
 public class DetailedMovieActivity extends AppCompatActivity implements DetailedMovieActivityInterface{
-    private DetailedMoviePresenter presenter = new DetailedMoviePresenter(this);
+    private DetailedMoviePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        presenter = new DetailedMoviePresenter(this);
         setContentView(R.layout.activity_detailed_movie);
         Intent intent = getIntent();
         presenter.retrieveIntent(intent);
