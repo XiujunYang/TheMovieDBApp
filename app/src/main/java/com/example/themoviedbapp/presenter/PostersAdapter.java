@@ -20,6 +20,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import static com.example.themoviedbapp.util.AppConstant.TMDB_LOADING_IMG_PREFIX_URL;
 
 /**
@@ -31,6 +33,8 @@ public class PostersAdapter extends RecyclerView.Adapter<PostersAdapter.ViewHold
 
     List<Movie> list;
     Context context;
+
+    @Inject
     public PostersAdapter(List<Movie> list) {
         this.list = list;
     }

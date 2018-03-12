@@ -8,6 +8,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.themoviedbapp.R;
+import com.example.themoviedbapp.dependencyInjection.DaggerDetailedMovieActivityComponent;
 import com.example.themoviedbapp.model.gson.DetailedMovie;
 import com.example.themoviedbapp.presenter.DetailedMoviePresenter;
 import com.example.themoviedbapp.util.Util;
@@ -19,16 +20,19 @@ import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import static com.example.themoviedbapp.util.AppConstant.TMDB_LOADING_IMG_PREFIX_URL;
 
 public class DetailedMovieActivity extends AppCompatActivity implements DetailedMovieActivityInterface{
-    private DetailedMoviePresenter presenter;
+    @Inject @Named("detail") DetailedMoviePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new DetailedMoviePresenter(this);
         setContentView(R.layout.activity_detailed_movie);
+        DaggerDetailedMovieActivityComponent.builder().withParameter(this).build().inject(this);
         Intent intent = getIntent();
         presenter.retrieveIntent(intent);
     }
