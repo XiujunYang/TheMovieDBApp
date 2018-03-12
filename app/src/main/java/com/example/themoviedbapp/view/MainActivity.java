@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.themoviedbapp.R;
+import com.example.themoviedbapp.dependencyInjection.DaggerMainActivityComponent;
 import com.example.themoviedbapp.presenter.MainPresenter;
 import com.example.themoviedbapp.presenter.PostersAdapter;
 import com.example.themoviedbapp.util.Util;
@@ -22,9 +23,12 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 public class MainActivity extends AppCompatActivity implements MainViewInterface {
     private Logger logger = LoggerFactory.getLogger(MainActivity.class);
-    MainPresenter presenter = new MainPresenter();
+    @Inject @Named("main") MainPresenter presenter;
     private DrawerLayout mDrawerLayout;
     private MaterialSearchView searchView;
     private NavigationView navigationView;
@@ -34,7 +38,8 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
         super.onCreate(savedInstanceState);
         logger.info("MainActivity onCreate");
         setContentView(R.layout.activity_main);
-        presenter.init(this, this.getApplicationContext());
+        DaggerMainActivityComponent.create().inject(this);
+        presenter.init(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);

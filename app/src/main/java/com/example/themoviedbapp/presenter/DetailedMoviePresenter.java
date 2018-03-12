@@ -10,6 +10,8 @@ import com.example.themoviedbapp.view.DetailedMovieActivityInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
+
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 
@@ -21,6 +23,7 @@ public class DetailedMoviePresenter {
     private Logger logger = LoggerFactory.getLogger(DetailedMoviePresenter.class);
     private DetailedMovieActivityInterface detailedMovieView;
 
+    @Inject
     public DetailedMoviePresenter(DetailedMovieActivityInterface detailedMovieActivity) {
         detailedMovieView = detailedMovieActivity;
     }

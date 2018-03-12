@@ -3,18 +3,19 @@ package com.example.themoviedbapp.presenter;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.design.widget.NavigationView;
 import android.view.MenuItem;
 
 import com.example.themoviedbapp.R;
+import com.example.themoviedbapp.dependencyInjection.DaggerMainPresenterComponent;
 import com.example.themoviedbapp.model.APIDataLoader;
 import com.example.themoviedbapp.model.AppDatabase;
 import com.example.themoviedbapp.model.MovieDao;
 import com.example.themoviedbapp.model.gson.Movie;
 import com.example.themoviedbapp.model.gson.MovieResponse;
 import com.example.themoviedbapp.view.DetailedMovieActivity;
+import com.example.themoviedbapp.view.MainActivity;
 import com.example.themoviedbapp.view.MainViewInterface;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -27,7 +28,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.inject.Inject;
 
-import dagger.Module;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
@@ -36,18 +36,18 @@ import static com.example.themoviedbapp.util.AppConstant.DATABASE_NAME;
 /**
  * Created by Jean on 2018/3/9.
  */
-public class MainPresenter implements MainPresenterInterface{
+public class MainPresenter {
     private Logger logger = LoggerFactory.getLogger(MainPresenter.class);
+
+    private List<Movie> movieList = new CopyOnWriteArrayList<Movie>();
+    @Inject PostersAdapter postersAdapter;
+    @Inject APIDataLoader loader;
+
     private MainViewInterface mainView;
     private Context context;
-    private List<Movie> movieList = new CopyOnWriteArrayList<Movie>();
-    PostersAdapter postersAdapter;
-    APIDataLoader loader;
     private AppDatabase db;
     private MovieDao movieDAO;
     private int navSatus;
-    @Inject
-    SharedPreferences sharedPreferences;
 
     private NavigationView.OnNavigationItemSelectedListener nvListener = new NavigationView.OnNavigationItemSelectedListener() {
         @Override
@@ -102,20 +102,19 @@ public class MainPresenter implements MainPresenterInterface{
         @Override
         public boolean onQueryTextChange(String newText) {
             findMovieTitleFromDB(newText);
-            //mainView.adjustActionBar();
+//            mainView.adjustActionBar();
             return true;
         }
     };
 
     @Inject
     public MainPresenter() {
-        this.loader = new APIDataLoader();
-        postersAdapter = new PostersAdapter(movieList);
+        DaggerMainPresenterComponent.builder().withParameter(movieList).build().inject(this);
     }
 
-    public void init(MainViewInterface mainView, Context context) {
+    public void init(MainViewInterface mainView) {
         this.mainView = mainView;
-        this.context = context;
+        this.context = ((MainActivity) mainView).getApplicationContext();
         mainView.init(postersAdapter, nvListener, searchQueryTxtLinstener);
         loader.subscribeTopRateMovies(movieListObserver);
     }

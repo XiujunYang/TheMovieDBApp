@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observer;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -29,6 +31,7 @@ public class APIDataLoader {
     private Logger logger = LoggerFactory.getLogger(APIDataLoader.class);
     ApiService apiService;
 
+    @Inject
     public APIDataLoader() {
         logger.info("DEBUG:" + (BuildConfig.DEBUG == true));
         OkHttpClient.Builder client = new OkHttpClient.Builder();
