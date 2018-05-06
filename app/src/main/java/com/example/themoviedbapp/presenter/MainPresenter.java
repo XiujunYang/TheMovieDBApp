@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.design.widget.NavigationView;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.themoviedbapp.R;
 import com.example.themoviedbapp.dependencyInjection.DaggerMainPresenterComponent;
@@ -115,8 +116,19 @@ public class MainPresenter {
     public void init(MainViewInterface mainView) {
         this.mainView = mainView;
         this.context = ((MainActivity) mainView).getApplicationContext();
-        mainView.init(postersAdapter, nvListener, searchQueryTxtLinstener);
+        PostersAdapter.ItemClickListener clickListener = new PostersAdapter.ItemClickListener(){
+            @Override
+            public void onItemClick(View view, int position) {
+                logger.debug("position:" + position);
+                Intent intent = new Intent(context, DetailedMovieActivity.class);
+                intent.putExtra("movieId", postersAdapter.getItem(position).getId());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        };
+        postersAdapter.setClickListener(clickListener);
         loader.subscribeTopRateMovies(movieListObserver);
+        mainView.init(postersAdapter, nvListener, searchQueryTxtLinstener);
     }
 
     public void refreshMovieListByCategory(int category) {

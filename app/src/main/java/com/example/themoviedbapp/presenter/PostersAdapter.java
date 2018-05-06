@@ -31,8 +31,9 @@ import static com.example.themoviedbapp.util.AppConstant.TMDB_LOADING_IMG_PREFIX
 public class PostersAdapter extends RecyclerView.Adapter<PostersAdapter.ViewHolder>{
     private Logger logger = LoggerFactory.getLogger(PostersAdapter.class);
 
-    List<Movie> list;
-    Context context;
+    private List<Movie> list;
+    private Context context;
+    private ItemClickListener itemClickListener;
 
     @Inject
     public PostersAdapter(List<Movie> list) {
@@ -52,15 +53,6 @@ public class PostersAdapter extends RecyclerView.Adapter<PostersAdapter.ViewHold
         Uri uri = Uri.parse(TMDB_LOADING_IMG_PREFIX_URL + list.get(position).getPoster_path());
         holder.posterView.setImageURI(uri);
         holder.movieTitle.setText(list.get(position).getTitle());
-        logger.info("[onBindViewHolder]{}", list.get(position));
-        holder.posterView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                Intent intent = new Intent(context, DetailedMovieActivity.class);
-                intent.putExtra("movieId", list.get(position).getId());
-                context.startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -69,7 +61,19 @@ public class PostersAdapter extends RecyclerView.Adapter<PostersAdapter.ViewHold
     }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public Movie getItem(int position) {
+        return list.get(position);
+    }
+
+    public void setClickListener(ItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
+
+    interface ItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         SimpleDraweeView posterView;
         TextView movieTitle;
 
@@ -77,7 +81,15 @@ public class PostersAdapter extends RecyclerView.Adapter<PostersAdapter.ViewHold
             super(itemView);
             posterView = (SimpleDraweeView) itemView.findViewById(R.id.gridView_image_Id);
             posterView.getHierarchy().setProgressBarImage(new ProgressBarDrawable());
+            posterView.setOnClickListener(this);
             movieTitle = (TextView) itemView.findViewById(R.id.gridView_movie_title);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (itemClickListener != null) {
+                itemClickListener.onItemClick(view, getAdapterPosition());
+            }
         }
     }
 }
