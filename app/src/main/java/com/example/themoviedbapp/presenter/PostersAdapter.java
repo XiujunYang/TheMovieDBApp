@@ -88,7 +88,7 @@ public class PostersAdapter extends RecyclerView.Adapter<PostersAdapter.ViewHold
         @Override
         public void onClick(View view) {
             if (itemClickListener != null) {
-                itemClickListener.onItemClick(view, getAdapterPosition());
+                itemClickListener.onItemClick(view, getLayoutPosition());
             }
         }
     }
